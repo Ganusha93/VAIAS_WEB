@@ -144,7 +144,7 @@
                             </div>
 
                             <div class="col-md-8 col-sm-8 scrollpoint sp-effect1">
-                                <form name="register" style="margin-left: 15%; width: 90%;"class="form-horizontal" action="HospitalController?type=reg" onsubmit="return validateForm()" method="post" role="form">
+                                <form name="register" style="margin-left: 15%; width: 90%;"class="form-horizontal" action="HospitalAdminController?type=reg" onsubmit="return validateForm()" method="post" role="form">
 
 
 

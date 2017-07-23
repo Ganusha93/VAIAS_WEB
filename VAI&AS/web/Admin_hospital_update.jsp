@@ -155,7 +155,7 @@ font-size: 16px;"> 26 April 2017 &nbsp; <a style="color: white;" href="Admin_das
                                             <input type="text" class="form-control" placeholder="Hospital ID" name="HID" id="HID">
 
                                         </div>
-                                        <input type="submit" onclick="form.action='HospitalController?type=selbyID';"  class="btn btn-primary" class="fa fa-edit " value="search">
+                                        <input type="submit" onclick="form.action='HospitalAdminController?type=selbyID';"  class="btn btn-primary" class="fa fa-edit " value="search">
                                     </div>
                                     </form>
                                     <% Hospital hospital=(Hospital)request.getAttribute("sellist");%>
@@ -236,8 +236,8 @@ font-size: 16px;"> 26 April 2017 &nbsp; <a style="color: white;" href="Admin_das
 
                                     <div class="form-group"> 
                                         <div class="col-sm-offset-2 col-sm-10">
-                                           <input type="submit" class="btn btn-default" value="UPDATE USER" onclick="form.action='HospitalController?type=update';">
-                                                    <input type="submit" class="btn btn-default" onclick="form.action='HospitalController?type=delete';" value="DELETE USER" >
+                                           <input type="submit" class="btn btn-default" value="UPDATE USER" onclick="form.action='HospitalAdminController?type=update';">
+                                                    <input type="submit" class="btn btn-default" onclick="form.action='HospitalAdminController?type=delete';" value="DELETE USER" >
                                         </div>
                                     </div>
                                 </form>

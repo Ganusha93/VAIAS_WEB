@@ -54,7 +54,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 
     @Override
     public boolean updateHospitalByHID(Hospital hospital, Connection connection) throws ClassNotFoundException, SQLException {
-        PreparedStatement stm = connection.prepareStatement("UPDATE hospital SET HOSPITAL_NAME=?, PROVINCE=?, DISTRICT=?, CITY=?, LAT=?, LON=?, TP=?");
+        PreparedStatement stm = connection.prepareStatement("UPDATE hospital SET HOSPITAL_NAME=?, PROVINCE=?, DISTRICT=?, CITY=?, LAT=?, LON=?, TP=? WHERE HID=?");
         stm.setObject(1, hospital.getHOSPITAL_NAME());
         stm.setObject(2, hospital.getPROVINCE());
         stm.setObject(3, hospital.getDISTRICT());
@@ -62,6 +62,7 @@ public class HospitalDAOImpl implements HospitalDAO {
         stm.setObject(5, hospital.getLAT());
         stm.setObject(6, hospital.getLON());
         stm.setObject(7, hospital.getTP());
+        stm.setObject(8, hospital.getHID());
         int res = stm.executeUpdate();
         if (res > 0) {
             return true;
