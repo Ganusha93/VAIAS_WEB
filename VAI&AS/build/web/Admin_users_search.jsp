@@ -4,6 +4,9 @@
     Author     : Dilum
 --%>
 
+<%@page import="sun.font.Script"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.ucsc.vaias.model.User"%>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
@@ -24,17 +27,36 @@
         <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
         
         <script type="text/javascript">
-        function showData(value){ 
+            
+        function showData(value){
+            
             $.ajax({
-                url : "UserController?type=search"+value,
+                url : "UserController?query="+value,
                 type : "POST",
                 async : false,
                 success : function(data) {
-//Do something with the data here
+                    $("#autocomplete").fadeIn();
+                    $("#autocomplete").html(data);
                 }
+                
             });
+          
+         $(document).on('click','li',function(){
+             $("#name").val($(this).text());
+             $("#autocomplete").fadeOut();
+         });  
+         
+            
         }
+        
         </script>
+        <script>
+            function showDiv() {
+   document.getElementById('big').style.visibility = 'visible';
+}
+        </script>
+        
+        
         
     </head>
     <body>
@@ -84,21 +106,125 @@
             <!-- /. NAV SIDE  -->
             <div id="page-wrapper" >
                 <div id="page-inner">
+                        <% User user=(User)request.getAttribute("userDetails");
+                        try{
+                        if(user.getUID()==null){
+                          %> <script type="text/javascript">
+                            alert("No Data Found");
+                        </script><%
+                                }}catch(Exception e){}   
+                            
+                        
+                        %>
+                            
+                    <div class="col-md-8 col-sm-8 scrollpoint sp-effect1">
+                        <form name="sel" style="margin-left: 15%; width: 90%;"class="form-horizontal" action="UserController?type=selbyName" method="post"  role="form" id="search">
+                                            <div class="form-group ">
+                                                <label class="control-label col-sm-2" for="user_id"></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" name="first_Name" id="name" placeholder="Enter User Name to Search" onkeyup="showData(this.value);">
+                                                        <div style="position: absolute; z-index: 2; list-style: none; background-color: #F0F8FF; width: 92%;" id="autocomplete" ></div>
+                                                       
+                                                </div>
+                                                <input type="submit"  class="btn btn-primary" class="fa fa-edit " value="search">
+                                                 </form>
+                                                 <br><br><br>
+                                        <%try{ %>
+                                        <div style="z-index: 4;" id="big">
+                                                <div class="form-group" >
+                                                <label class="control-label col-sm-2" for="fname">UID:</label>
+                                                <div class="col-sm-10">
+                                                    <div class="form-control">  <% try{ if(user.getUID()==null){out.println("");}else{out.println(user.getUID());}}catch(Exception e){} %></div>
+                                                </div>
+                                            </div  >
+                                                <div class="form-group">
+                                                <label class="control-label col-sm-2" for="fname">FIRST NAME:</label>
+                                                <div class="col-sm-10">
+                                                    <div class="form-control"><% try{ if(user.getUID()==null){out.println("");}else{out.println(user.getFIRST_NAME());}}catch(Exception e){} %></div>
+                                                </div>
+                                            </div>
+                                               
+                                                <div class="form-group">
+                                                <label class="control-label col-sm-2" for="fname">LAST NAME:</label>
+                                                <div class="col-sm-10">
+                                                    <div class="form-control"><% try{ if(user.getUID()==null){out.println("");}else{out.println(user.getLAST_NAME());}}catch(Exception e){} %></div>
+                                                </div>
+                                            </div>
+                                                <div class="form-group">
+                                                <label class="control-label col-sm-2" for="fname">GENDER:</label>
+                                                <div class="col-sm-10">
+                                                    <div class="form-control"><% try{ if(user.getUID()==null){out.println("");}else{out.println(user.getGENDER());}}catch(Exception e){} %></div>
+                                                </div>
+                                            </div>
+                                                <div class="form-group">
+                                                <label class="control-label col-sm-2" for="fname">NIC</label>
+                                                <div class="col-sm-10">
+                                                    <div class="form-control"><% try{ if(user.getUID()==null){out.println("");}else{out.println(user.getNIC());}}catch(Exception e){} %></div>
+                                                </div>
+                                            </div>
+                                                <div class="form-group">
+                                                <label class="control-label col-sm-2" for="fname">TP HOME</label>
+                                                <div class="col-sm-10">
+                                                    <div class="form-control"><% try{ if(user.getUID()==null){out.println("");}else{out.println(user.getTP_HOME());}}catch(Exception e){} %></div>
+                                                </div>
+                                            </div>
+                                                <div class="form-group">
+                                                <label class="control-label col-sm-2" for="fname">TP MOBILE</label>
+                                                <div class="col-sm-10">
+                                                    <div class="form-control"><% try{ if(user.getUID()==null){out.println("");}else{out.println(user.getTP_MOBILE());}}catch(Exception e){} %></div>
+                                                </div>
+                                            </div>
+                                                <div class="form-group">
+                                                <label class="control-label col-sm-2" for="fname">ADDRESS</label>
+                                                <div class="col-sm-10">
+                                                    <div class="form-control"><% try{ if(user.getUID()==null){out.println("");}else{out.println(user.getADDRESS());}}catch(Exception e){} %></div>
+                                                </div>
+                                            </div>
+                                                <div class="form-group">
+                                                <label class="control-label col-sm-2" for="fname">EMAIL</label>
+                                                <div class="col-sm-10">
+                                                    <div class="form-control"><% try{ if(user.getUID()==null){out.println("");}else{out.println(user.getEMAIL());}}catch(Exception e){} %></div>
+                                                </div>
+                                            </div>
+                                                <div class="form-group">
+                                                <label class="control-label col-sm-2" for="fname">License NO:</label>
+                                                <div class="col-sm-10">
+                                                    <div class="form-control"><% try{ if(user.getUID()==null){out.println("");}else{out.println(user.getLICENSE_NO());}}catch(Exception e){}%></div>
+                                                </div>
+                                            </div>
+                                                <div class="form-group">
+                                                <label class="control-label col-sm-2" for="fname">Blood Group:</label>
+                                                <div class="col-sm-10">
+                                                    <div class="form-control"><% try{ if(user.getUID()==null){out.println("");}else{out.println(user.getBLOOD_GROUP());}}catch(Exception e){} %></div>
+                                                </div>
+                                            </div>
+                                                <div class="form-group">
+                                                <label class="control-label col-sm-2" for="fname">Birth Date:</label>
+                                                <div class="col-sm-10">
+                                                    <div class="form-control"><% try{ if(user.getUID()==null){out.println("");}else{out.println(user.getBIRTH_DAY());}}catch(Exception e){} %></div>
+                                                </div>
+                                            </div>
+                                                <div class="form-group">
+                                                <label class="control-label col-sm-2" for="fname">Other:</label>
+                                                <div class="col-sm-10">
+                                                    <div class="form-control"><% try{ if(user.getUID()==null){out.println("");}else{out.println(user.getOTHER());}}catch(Exception e){} %></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                <% }catch(Exception e){
+                                                        
+                                                        } %>
+                                            </div>                 
 
-
-                    <div class="form-group">
-                        <label>Search user</label>
-                        <p class="help-block">find user details</p>
-                        <input class="form-control" type="text" name="name" id="name" onkeyup="showData(this.value);" />
-
-
-                    </div>
-                    <button class="btn btn-primary"><i class="fa fa-edit "></i> Search</button>
-
-
-
+                    
 
                 </div>
+                   
+
+
+
+
+                </div>onkeyup="showData(this.value);"
                 <!-- /. PAGE INNER  -->
             </div>
             <!-- /. PAGE WRAPPER  -->

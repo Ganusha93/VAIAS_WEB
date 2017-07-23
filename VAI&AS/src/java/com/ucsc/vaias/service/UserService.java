@@ -9,6 +9,7 @@ import com.ucsc.vaias.model.User;
 import java.sql.Connection;
 import java.sql.SQLDataException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -24,4 +25,12 @@ public interface UserService {
 
     public User searchUserByUID(User user, Connection connection) throws ClassNotFoundException, SQLException;
 
+   //**
+    public ArrayList<User> selectAllUsers(Connection connection) throws ClassNotFoundException, SQLException;
+    
+    public ArrayList<User> searchUsers(User user,Connection connection) throws ClassNotFoundException, SQLException;
+    
+    public User searchUserByName(User user, Connection connection) throws ClassNotFoundException, SQLException;
+    //**
 }
+
