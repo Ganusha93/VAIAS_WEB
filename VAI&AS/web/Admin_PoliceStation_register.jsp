@@ -143,7 +143,7 @@
                             </div>
 
                             <div class="col-md-8 col-sm-8 scrollpoint sp-effect1">
-                                <form name="registerpolice" style="margin-left: 15%; width: 90%;"class="form-horizontal" action="PoliceStationController?type=reg" onsubmit="return validateForm()" method="post" role="form">
+                                <form name="registerpolice" style="margin-left: 15%; width: 90%;"class="form-horizontal" action="PoliceStationAdminController?type=reg" onsubmit="return validateForm()" method="post" role="form">
 
 
 

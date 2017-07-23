@@ -27,7 +27,7 @@
 </head>
 <body>
     
-    <jsp:include page="//PoliceStationController?type=sel" flush="true"/>
+    <jsp:include page="//PoliceStationAdminController?type=sel" flush="true"/>
     <div id="wrapper">
         <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">

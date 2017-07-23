@@ -40,6 +40,10 @@
         <servlet-name>HospitalAdminController</servlet-name>
         <servlet-class>com.ucsc.vaias.controller.HospitalAdminController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PoliceStationAdminController</servlet-name>
+        <servlet-class>com.ucsc.vaias.controller.PoliceStationAdminController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AdminController</servlet-name>
         <url-pattern>/AdminController</url-pattern>
@@ -79,6 +83,10 @@
     <servlet-mapping>
         <servlet-name>HospitalAdminController</servlet-name>
         <url-pattern>/HospitalAdminController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PoliceStationAdminController</servlet-name>
+        <url-pattern>/PoliceStationAdminController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

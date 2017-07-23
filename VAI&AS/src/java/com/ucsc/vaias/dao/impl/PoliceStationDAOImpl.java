@@ -61,6 +61,7 @@ public class PoliceStationDAOImpl implements PoliceStationDAO {
         stm.setObject(4, policeStation.getLAT());
         stm.setObject(5, policeStation.getLON());
         stm.setObject(6, policeStation.getTP());
+        stm.setObject(7, policeStation.getPID());
         int res = stm.executeUpdate();
         if (res > 0) {
             return true;
@@ -76,6 +77,7 @@ public class PoliceStationDAOImpl implements PoliceStationDAO {
         PoliceStation psReturn=new PoliceStation();
         if (res.next()) {
             psReturn.setPID(res.getString("PID"));
+            psReturn.setPROVINCE(res.getString("PROVINCE"));
             psReturn.setDIVITION(res.getString("DIVITION"));
             psReturn.setCITY(res.getString("CITY"));
             psReturn.setLAT(res.getFloat("LAT"));

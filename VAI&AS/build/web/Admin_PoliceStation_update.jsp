@@ -155,7 +155,7 @@
                                             <input type="text" class="form-control" placeholder="Police Station ID" name="PID">
 
                                         </div>
-                                        <input type="submit" onclick="form.action='PoliceStationController?type=selbyID';"  class="btn btn-primary" class="fa fa-edit " value="search">
+                                        <input type="submit" onclick="form.action='PoliceStationAdminController?type=selbyID';"  class="btn btn-primary" class="fa fa-edit " value="search">
                                     </div>
                                 </form>
                                 <% PoliceStation policestation=(PoliceStation)request.getAttribute("sellist");%>
@@ -225,7 +225,7 @@
 
                                     <div class="form-group"> 
                                         <div class="col-sm-offset-2 col-sm-10">
-                                            <input type="submit" class="btn btn-default" value="UPDATE USER" onclick="form.action='PoliceStationController?type=update';">
+                                            <input type="submit" class="btn btn-default" value="UPDATE USER" onclick="form.action='PoliceStationAdminController?type=update';">
                                         </div>
                                     </div>
                                 </form>
