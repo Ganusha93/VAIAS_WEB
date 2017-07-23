@@ -12,6 +12,7 @@ import com.ucsc.vaias.service.impl.HospitalServiceImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -44,7 +45,7 @@ public class HospitalController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String type = request.getParameter("type");
+         String type = request.getParameter("type");
         DBResourceFactory dBResourceFactory = new DBResourceFactory();
         Connection connection = null;
         response.setContentType("text/html;charset=UTF-8");
@@ -64,7 +65,7 @@ public class HospitalController extends HttpServlet {
                     String CITY = request.getParameter("CITY");
                     float LAT = Float.valueOf(request.getParameter("LAT"));
                     float LON = Float.valueOf(request.getParameter("LON"));
-                    int TP = Integer.valueOf(request.getParameter("TP"));
+                    String TP = request.getParameter("TP");
 
                     System.out.println(type);
 
@@ -85,22 +86,144 @@ public class HospitalController extends HttpServlet {
                 Logger.getLogger(HospitalController.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            if (type.equals("sel")) {
+            if(type.equals("sel")){
                 try {
-
+                    
                     //request.getRequestDispatcher("/Admin_hospital.jsp").forward(request, response);
                     connection = dBResourceFactory.getFactoryConnection().getConnection();
                     HospitalService hospitalService = new HospitalServiceImpl();
                     ArrayList<Hospital> res_Select = hospitalService.selectAllHospital(connection);
 
-                    if (!res_Select.isEmpty()) {
-                        request.setAttribute("list", res_Select);
-                        getServletContext().getRequestDispatcher("/Admin_hospital.jsp").forward(request, response);
+                    for (Hospital hospital1 : res_Select) {
+                        System.out.println("dgsgfdrbffffffffff " + hospital1.getHID());
+                        System.out.println("dgsgfdrbffffffffff " + hospital1.getHOSPITAL_NAME());
+                        System.out.println("dgsgfdrbffffffffff " + hospital1.getDISTRICT());
+                        System.out.println("dgsgfdrbffffffffff " + hospital1.getCITY());
+                        System.out.println("dgsgfdrbffffffffff " + hospital1.getTP());
 
-                        out.flush();
-                        out.close();
-                        return;
                     }
+                    //if (hospital != null) {
+//                    JSONObject jSONObject = new JSONObject(hospitalService.selectAllHospital(connection));
+//                    jSONObject.put("list", res_Select);
+//                    //System.out.println(jSONObject);
+//                    response.setContentType("json");
+//                    out.print(jSONObject.toString());
+                   if (!res_Select.isEmpty()) {
+                   request.setAttribute("list",res_Select);
+                   getServletContext().getRequestDispatcher("/Admin_hospital.jsp").forward(request,response);
+                    
+                    
+                    out.flush();
+                    out.close();
+                    return;
+                   }
+                    
+                   
+                   
+                        if (response.isCommitted()) {
+                           
+                            System.out.println("yeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeees");
+                            
+                        }
+                        if (!response.isCommitted()) {
+                           
+                            System.out.println("noooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+                            
+                        }
+//                        if (response.isCommitted()) {
+//
+//                            System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwfffffffffffffffffffff");
+//                        }
+                    // }
+
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(HospitalController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(HospitalController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+            
+            if (type.equals("selbyID")) {
+                try {
+
+                    connection = dBResourceFactory.getFactoryConnection().getConnection();
+                    HospitalService hospitalService = new HospitalServiceImpl();
+                    Hospital hospital = new Hospital();
+                    String HID = request.getParameter("HID");
+                    System.out.println("Updatttttttttttttttt"+HID);
+                    hospital.setHID(HID);
+
+                    Hospital res_Select =hospitalService.searchHospitalByHID(hospital, connection);
+                    //System.out.println(res_Select.getHOSPITAL_NAME());
+                    System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"+res_Select.getTP());
+                    request.setAttribute("sellist", res_Select);
+                    getServletContext().getRequestDispatcher("/Admin_hospital_update.jsp").forward(request, response);
+                    System.out.println("epaaaaaaaaaaaaaawenawaaaaaaa    "+res_Select.getHOSPITAL_NAME());
+                    out.flush();
+                    out.close();
+                    return;
+
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(HospitalController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(HospitalController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+            if (type.equals("update")) {
+              try{  
+                connection = dBResourceFactory.getFactoryConnection().getConnection();
+                    String HID = request.getParameter("HID");
+                    String HOSPITAL_NAME = request.getParameter("HOSPITAL_NAME");
+                    String PROVINCE = request.getParameter("PROVINCE");
+                    String DISTRICT = request.getParameter("DISTRICT");
+                    String CITY = request.getParameter("CITY");
+                    float LAT = Float.valueOf(request.getParameter("LAT"));
+                    float LON = Float.valueOf(request.getParameter("LON"));
+                    String TP = request.getParameter("TP");
+                    System.out.println("qqqqqqqqqqqqqqqq       "+HOSPITAL_NAME);
+
+                
+                //String OTHER ="ees efwefew";
+                Hospital hospital = new Hospital(HID, HOSPITAL_NAME, PROVINCE, DISTRICT, CITY, LAT, LON, TP);
+
+                
+
+                HospitalService hospitalService = new HospitalServiceImpl();
+                    boolean res_Add = hospitalService.updateHospitalByHID(hospital, connection);
+
+                    if (res_Add) {
+                        response.sendRedirect("Admin_hospital_update.jsp");
+                    } else {
+
+                         response.sendRedirect(request.getHeader("referer"));
+                    }
+                } catch (ClassNotFoundException | SQLDataException ex) {
+                    Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if (type.equals("delete")) {
+                try {
+
+                    connection = dBResourceFactory.getFactoryConnection().getConnection();
+                    HospitalService hospitalService = new HospitalServiceImpl();
+                     Hospital hospital = new Hospital();
+                    String HID = request.getParameter("HID");
+                    hospital.setHID(HID);
+
+                    boolean deleteHospital =hospitalService.removeHospitalByHID(hospital, connection);
+                    if (deleteHospital) {
+                        response.sendRedirect("Admin_hospital_update.jsp");
+                        out.println("<script>alert('added');</script>");
+                    } else {
+                        response.sendRedirect(request.getHeader("referer"));
+                    }
+                    
+                    
+                    
+                    
+                    
 
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(HospitalController.class.getName()).log(Level.SEVERE, null, ex);
@@ -112,6 +235,7 @@ public class HospitalController extends HttpServlet {
 
         } catch (Exception e) {
 
+            System.out.println("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy" + e);
         }
 
     }
