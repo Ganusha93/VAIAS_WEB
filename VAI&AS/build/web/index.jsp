@@ -103,10 +103,7 @@
                             zoom: 8,
                             center: uluru
                         });
-                        var marker = new google.maps.Marker({
-                            position: uluru,
-                            map: map
-                        });
+                        
                     }
                 </script>
                 <script async defer

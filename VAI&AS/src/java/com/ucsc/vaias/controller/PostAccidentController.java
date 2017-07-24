@@ -64,12 +64,12 @@ public class PostAccidentController extends HttpServlet {
                 
                 UserDAOImpl userDAOImpl = new UserDAOImpl();
                 User postAccidentUser = userDAOImpl.searchUserByUID(user, connection);
-                //request.setAttribute("user", postAccidentUser);
-
                 JSONObject jsono=new JSONObject(postAccidentUser);
-                
                 response.setContentType("json");
                 out.print(jsono);
+                //request.setAttribute("user", postAccidentUser);
+
+                
                 //String name=postAccidentUser.getFIRST_NAME();
                 //out.print(postAccident.getUID());
                 String PID = request.getParameter("PID");
@@ -150,6 +150,8 @@ public class PostAccidentController extends HttpServlet {
                 
                 response.setContentType("json");
                 out.print(jsono);
+                String redirectURL = "./Hospital_index.jsp";
+                    response.sendRedirect(redirectURL);
                 //String name=postAccidentUser.getFIRST_NAME();
                 //out.print(postAccident.getUID());
                 String PID = request.getParameter("PID");

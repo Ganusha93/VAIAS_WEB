@@ -1,6 +1,6 @@
 <%-- 
-    Document   : index
-    Created on : Mar 22, 2017, 9:08:51 AM
+    Document   : Police_index
+    Created on : Jul 19, 2017, 7:15:09 AM
     Author     : Ganusha
 --%>
 
@@ -15,6 +15,7 @@
     <head>
         <meta charset="UTF-8">
         <title>VAIAS</title>
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <link rel="shortcut icon" href="favicon.png">
@@ -27,7 +28,48 @@
         <link rel="stylesheet" href="assets/js/rs-plugin/css/settings.css">
         <link rel="stylesheet" href="assets/css/styles.css">
 
+        <style>
+            .button1 {
+                display: inline-block;
+                border-radius: 4px;
+                background-color: #f4511e;
+                border: none;
+                color: #FFFFFF;
+                text-align: center;
+            
+                
+                width: 120px;
+                height: 20px;
+                transition: all 0.5s;
+                cursor: pointer;
+                margin: 1px;
+            }
 
+            .button1 span {
+                cursor: pointer;
+                display: inline-block;
+                position: relative;
+                transition: 0.5s;
+            }
+
+            .button1 span:after {
+                content: '\00bb';
+                position: absolute;
+                opacity: 0;
+                top: 0;
+                right: -20px;
+                transition: 0.5s;
+            }
+
+            .button1:hover span {
+                padding-right: 25px;
+            }
+
+            .button1:hover span:after {
+                opacity: 1;
+                right: 0;
+            }
+        </style>
         <script type="text/javascript" src="assets/js/modernizr.custom.32033.js"></script>
         <script src="assets/js/jquery-1.11.1.min.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
@@ -54,10 +96,8 @@
 
 
 
-
-
         <div id="floating-panel">
-            
+
             <select style="visibility: hidden;"  id="mode">
                 <option value="DRIVING">Driving</option>
                 <option value="WALKING">Walking</option>
@@ -78,8 +118,11 @@
                     </div>
                 </div>
             </div>
-            <div id="viewprofile" style="display: none"><jsp:include page="profileview.jsp" /></div>
+            <div id="viewprofile" style="display: none"><jsp:include page="Hospital_profileview.jsp" /></div>
             <header>
+
+
+
 
                 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
                     <div class="container">
@@ -96,9 +139,11 @@
                         <!-- Collect the nav links, forms, and other content for toggling -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
+
+
                             <ul class="nav navbar-nav navbar-right">
                                 <li><a class="" href="AdminIndex.jsp">Home</a></li>
-                                <li><a class="getApp" href="Admin_dashboard.jsp">Admin Panel</a>
+                                <li><a class="getApp" href="#getApp" id="view">View Details</a>
                                 </li>
 
                                 <li><a href="index.jsp">Log Out</a>
@@ -111,10 +156,16 @@
                 </nav>
 
 
+
                 <!--RevSlider-->
                 <div id="banner"  style="height: 150px;">
                 </div>
 
+                <form class="getApp" style="float: right; margin-right: 1%; background-color: #f4511e;"   name="someForm" action="PostAccidentController" method="POST">
+                    <input type="hidden" name="HID" id="HID" />
+                    <input type="hidden" name="AID" id="AID" />
+                    <input type="submit" class="button1" value="SEND REQUEST" name="Submit" />
+                </form>
 
 
                 <div id="map" style="height: 700px;width: 100%;"></div>
@@ -138,19 +189,18 @@
                             success: function (data) {
                                 var lat = data.lat;
                                 var lon = data.lon;
+                                var id = data.aid;
+
                                 if ((prelat != lat) && (prelon != lon)) {
                                     //marker.setPosition(new google.maps.LatLng(lat, lon));
                                     // map.panTo(new google.maps.LatLng(lat, lon));
 
-                                    marker.addListener('click', function () {
-                                        $("#viewprofile").toggle("slow");
-                                        loadData();
-                                        document.getElementById("map").style.opacity = "0.5";
-                                    });
 
                                     prelat = lat;
                                     prelon = lon;
                                     passLatLon(lat, lon);
+                                    document.getElementById("AID").value = id;
+
                                 }
 
                             }
@@ -237,7 +287,7 @@
                             ;
                     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
                     var d = R * c; // Distance in 
-                  
+
                     return d;
                 }
 
@@ -250,34 +300,35 @@
 
                     jQuery.ajax({
                         type: 'POST',
-                        url: "HospitalController",
+                        url: "PoliceStationController",
                         dataType: 'json',
                         success: function (data) {
                             var mindistance = 10000;
                             var minlat = 0;
                             var minlon = 0;
-                            var minid=0;
+                            var minid = 0;
 
-                            for (var i = 0; i < 20; i++) {
+                            for (var i = 0; i < 40; i++) {
 
                                 if (data[i] != undefined) {
                                     var distance = getDistanceFromLatLonInKm(lat, lon, data[i], data[i + 1]);
-                                    
+
                                     if (mindistance > distance) {
                                         mindistance = distance;
                                         minlat = data[i];
                                         minlon = data[++i];
                                         minid = data[++i];
-                                        
                                     } else {
-                                        i+2;
+                                        i = i + 2;
                                     }
 
 
 
                                 }
                             }
-
+                            // alert(minid);
+                            document.getElementById("HID").value = minid;
+                            //document.form[0].submit();
                             //minlat = 6.8625;
                             //minlon = 79.8855;
                             //lat=6.8817;
@@ -336,11 +387,23 @@
 
                     });
 
-
+                    $('#view').click(function () {
+                        $("#viewprofile").toggle("slow");
+                        loadData();
+                        document.getElementById("map").style.opacity = "0.5";
+                    });
 
                 </script>
             </div>
         </div>
+             <%
+            // New location to be redirected
+            String site = new String("Hospital_index.jsp");
+            response.setStatus(response.SC_MOVED_TEMPORARILY);
+            response.setHeader("Location", site);
+        %>
+
+
     </body>
 
 </html>
