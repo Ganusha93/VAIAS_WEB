@@ -183,7 +183,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="control-label col-sm-2" for="address">Devision:</label>
+                                        <label class="control-label col-sm-2" for="address">District:</label>
                                         <div class="col-sm-10">
                                             <select class="form-control" name="DEVISION" id="DEVISION" required>
                                                 <option class="form-group" value=<% try{ if(policestation.getPID()==null){out.println("");}else{out.println(policestation.getDIVITION());}}catch(Exception e){} %> ><% try{ if(policestation.getPID()==null){out.println("");}else{out.println(policestation.getDIVITION());}}catch(Exception e){} %></option>
@@ -193,9 +193,9 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="control-label col-sm-2" for="address">City:</label>
+                                        <label class="control-label col-sm-2" for="address">Devision:</label>
                                         <div class="col-sm-10">
-                                            <input type="text" id="CITY"class="form-control" placeholder="City" name="CITY" required value=<% try{ if(policestation.getPID()==null){out.println("");}else{out.println(policestation.getCITY());}}catch(Exception e){} %> >
+                                            <input type="text" id="CITY"class="form-control" placeholder="Devision" name="CITY" required value=<% try{ if(policestation.getPID()==null){out.println("");}else{out.println(policestation.getCITY());}}catch(Exception e){} %> >
                                         </div>
                                     </div>
 

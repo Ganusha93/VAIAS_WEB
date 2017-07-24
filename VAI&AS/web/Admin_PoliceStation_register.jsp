@@ -176,9 +176,9 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="control-label col-sm-2" for="address">Devision:</label>
+                                            <label class="control-label col-sm-2" for="address">District:</label>
                                             <div class="col-sm-10">
-                                                <select class="form-control" name="DEVISION" id="district" required>
+                                                <select class="form-control" name="DEVISION" id="district" required >
                                                    
 
                                                 </select>
@@ -186,12 +186,9 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="control-label col-sm-2" for="address">City:</label>
+                                            <label class="control-label col-sm-2" for="address">Devision:</label>
                                             <div class="col-sm-10">
-                                                <select class="form-control" name="CITY" required>
-                                                    <option value="Yakkalamulla" class="form-group">Yakkalamulla</option>
-
-                                                </select>
+                                                <input type="text" class="form-control" placeholder="Devision" name="CITY" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
