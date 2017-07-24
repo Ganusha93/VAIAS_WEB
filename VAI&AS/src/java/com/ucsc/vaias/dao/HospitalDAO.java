@@ -27,4 +27,8 @@ public interface HospitalDAO {
     public ArrayList getHospitalLocation(Connection connection) throws ClassNotFoundException,SQLException;
 
     public ArrayList<Hospital> selectAllHospital(Connection connection) throws ClassNotFoundException, SQLException;
+    
+    public ArrayList<Hospital> searchHospital(Hospital hospital, Connection connection) throws ClassNotFoundException, SQLException;
+    
+    public Hospital searchHospitalbyName(Hospital hospital, Connection connection) throws ClassNotFoundException, SQLException;
 }

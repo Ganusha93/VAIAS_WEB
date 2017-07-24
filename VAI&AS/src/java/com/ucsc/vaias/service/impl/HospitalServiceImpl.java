@@ -8,6 +8,7 @@ package com.ucsc.vaias.service.impl;
 import com.ucsc.vaias.dao.HospitalDAO;
 import com.ucsc.vaias.dao.impl.HospitalDAOImpl;
 import com.ucsc.vaias.model.Hospital;
+import com.ucsc.vaias.model.User;
 import com.ucsc.vaias.service.HospitalService;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -54,6 +55,16 @@ public class HospitalServiceImpl implements HospitalService {
     public ArrayList getHospitalLocation(Connection connection) throws ClassNotFoundException, SQLException {
          
         return hdao.getHospitalLocation(connection);
+    }
+
+    @Override
+    public ArrayList<Hospital> searchHospital(Hospital hospital, Connection connection) throws ClassNotFoundException, SQLException {
+        return hdao.searchHospital(hospital, connection);
+    }
+
+    @Override
+    public Hospital searchHospitalByName(Hospital hospital, Connection connection) throws ClassNotFoundException, SQLException {
+       return hdao.searchHospitalbyName(hospital, connection);
     }
 
 

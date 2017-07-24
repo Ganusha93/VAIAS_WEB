@@ -165,7 +165,7 @@ font-size: 16px;"> 26 April 2017 &nbsp; <a style="color: white;" href="Admin_das
                                      <div class="form-group ">
                                         <label class="control-label col-sm-2" for="user_id">Hospital  Name:</label>
                                         <div class="col-sm-10">
-                                             <textarea class="form-control" name="HOSPITAL_NAME"  >  <% try{ if(hospital.getHID()==null){out.println("");}else{out.println(hospital.getHOSPITAL_NAME());}}catch(Exception e){} %></textarea>
+                                             <textarea class="form-control" name="HOSPITAL_NAME"  ><% try{ if(hospital.getHID()==null){out.println("");}else{out.println(hospital.getHOSPITAL_NAME());}}catch(Exception e){} %></textarea>
 
                                         </div>
                                         

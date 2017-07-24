@@ -7,8 +7,11 @@ package com.ucsc.vaias.controller;
 
 import com.ucsc.vaias.connection.factory.DBResourceFactory;
 import com.ucsc.vaias.model.Hospital;
+import com.ucsc.vaias.model.User;
 import com.ucsc.vaias.service.HospitalService;
+import com.ucsc.vaias.service.UserService;
 import com.ucsc.vaias.service.impl.HospitalServiceImpl;
+import com.ucsc.vaias.service.impl.UserServiceImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -21,6 +24,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONObject;
 
 /**
  *
@@ -43,10 +47,35 @@ public class HospitalAdminController extends HttpServlet {
         DBResourceFactory dBResourceFactory = new DBResourceFactory();
         Connection connection = null;
         response.setContentType("text/html;charset=UTF-8");
-
+        
+        String name = request.getParameter("query");
+         
         PrintWriter out = response.getWriter();
         //out.flush();
         try {
+            try{
+                connection = dBResourceFactory.getFactoryConnection().getConnection();
+                HospitalService hospitalservice = new HospitalServiceImpl();
+                Hospital hospital = new Hospital();
+                
+                System.out.println("nammmmmmmmmmmmmmmmmmmmmmm    "+ name);
+                hospital.setHOSPITAL_NAME(name);
+                if(!name.isEmpty()){
+                ArrayList<Hospital> res_Select = hospitalservice.searchHospital(hospital, connection);
+                ArrayList<String> names=new ArrayList<String>();
+                
+                for (Hospital hos1 : res_Select) {
+                        
+                       System.out.println("searchhhhhhhhhh   " + hos1.getTP());
+                       out.println("<li>"+hos1.getHOSPITAL_NAME()+"</li>");
+                       
+                        
+                    }
+
+                }
+                }catch(Exception e){
+                    
+                }
 
             //TODO output your page here. You may use following sample code. 
             try {
@@ -129,6 +158,32 @@ public class HospitalAdminController extends HttpServlet {
 //                            System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwfffffffffffffffffffff");
 //                        }
                     // }
+
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(HospitalController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(HospitalController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+            if (type.equals("selbyName")) {
+                try {
+
+                    connection = dBResourceFactory.getFactoryConnection().getConnection();
+                    HospitalService hospitalService = new HospitalServiceImpl();
+                    Hospital hospital=new Hospital();
+                    String hospitalName = request.getParameter("hospitalName");
+                    hospital.setHOSPITAL_NAME(hospitalName);
+
+                    Hospital res_Select = hospitalService.searchHospitalByName(hospital, connection);
+                    System.out.println(res_Select.getTP());
+                    System.out.println("seaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaarrrrrrch"+res_Select.getPROVINCE());
+                    request.setAttribute("hospitalNames", res_Select);
+                    getServletContext().getRequestDispatcher("/Admin_hospital_search.jsp").forward(request, response);
+                    
+                    out.flush();
+                    out.close();
+                    return;
 
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(HospitalController.class.getName()).log(Level.SEVERE, null, ex);

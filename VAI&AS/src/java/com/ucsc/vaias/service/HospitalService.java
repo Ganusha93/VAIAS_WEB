@@ -6,6 +6,7 @@
 package com.ucsc.vaias.service;
 
 import com.ucsc.vaias.model.Hospital;
+import com.ucsc.vaias.model.User;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -27,5 +28,9 @@ public interface HospitalService {
     public ArrayList<Hospital> selectAllHospital(Connection connection) throws ClassNotFoundException, SQLException;
     
     public ArrayList getHospitalLocation(Connection connection) throws ClassNotFoundException,SQLException;
+    
+    public ArrayList<Hospital> searchHospital(Hospital hospital,Connection connection) throws ClassNotFoundException, SQLException;
+    
+    public Hospital searchHospitalByName(Hospital hospital, Connection connection) throws ClassNotFoundException, SQLException;
     
 }

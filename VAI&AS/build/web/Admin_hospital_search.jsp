@@ -4,6 +4,7 @@
     Author     : Dilum
 --%>
 
+<%@page import="com.ucsc.vaias.model.Hospital"%>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -20,7 +21,33 @@
     <link href="assets/css/custom.css" rel="stylesheet" />
      <!-- GOOGLE FONTS-->
    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+   
+   <script type="text/javascript">
+            
+        function showData(value){
+            
+            $.ajax({
+                url : "HospitalAdminController?query="+value,
+                type : "POST",
+                async : false,
+                success : function(data) {
+                    $("#autocomplete").fadeIn();
+                    $("#autocomplete").html(data);
+                }
+                
+            });
+          
+         $(document).on('click','li',function(){
+             $("#name").val($(this).text());
+             $("#autocomplete").fadeOut();
+         });  
+         
+            
+        }
+        
+        </script>
 </head>
+    
 <body>
     <div id="wrapper">
         <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
@@ -68,21 +95,90 @@ font-size: 16px;"> 26 April 2017 &nbsp; <a style="color: white;" href="Admin_das
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper" >
             <div id="page-inner">
-                
-                
-                <div class="form-group">
-                                            <label>Search Hospital</label>
-                                            <p class="help-block">find hospital and hospital details</p>
-                                            <input class="form-control" />
+                        <% Hospital hospital=(Hospital)request.getAttribute("hospitalNames");
+                        try{
+                        if(hospital.getHID()==null){
+                          %> <script type="text/javascript">
+                            alert("No Data Found");
+                        </script><%
+                                }}catch(Exception e){}   
+                            
+                        
+                        %>
+                            
+                    <div class="col-md-8 col-sm-8 scrollpoint sp-effect1">
+                        <form name="sel" style="margin-left: 15%; width: 90%;"class="form-horizontal" action="HospitalAdminController?type=selbyName" method="post"  role="form" id="search">
+                                            <div class="form-group ">
+                                                <label class="control-label col-sm-2" for="user_id"></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" name="hospitalName" id="name" placeholder="Enter User Name to Search" onkeyup="showData(this.value);">
+                                                        <div style="position: absolute; z-index: 2; list-style: none; background-color: #F0F8FF; width: 92%;" id="autocomplete" ></div>
+                                                       
+                                                </div>
+                                                <input type="submit"  class="btn btn-primary" class="fa fa-edit " value="search">
+                                                 </form>
+                                                 <br><br><br>
+                                        <%try{ %>
+                                        <div style="z-index: 4;" id="big">
+                                                <div class="form-group" >
+                                                <label class="control-label col-sm-2" for="fname">PID:</label>
+                                                <div class="col-sm-10">
+                                                    <div class="form-control">  <% try{ if(hospital.getHID()==null){out.println("");}else{out.println(hospital.getHID());}}catch(Exception e){} %></div>
+                                                </div>
+                                            </div  >
+                                                <div class="form-group">
+                                                <label class="control-label col-sm-2" for="fname">HOSPITAL NAME:</label>
+                                                <div class="col-sm-10">
+                                                    <div class="form-control"><% try{ if(hospital.getPROVINCE()==null){out.println("");}else{out.println(hospital.getPROVINCE());}}catch(Exception e){} %></div>
+                                                </div>
+                                            </div>
+                                               
+                                                <div class="form-group">
+                                                <label class="control-label col-sm-2" for="fname">PROVINCE:</label>
+                                                <div class="col-sm-10">
+                                                    <div class="form-control"><% try{ if(hospital.getHID()==null){out.println("");}else{out.println(hospital.getPROVINCE());}}catch(Exception e){} %></div>
+                                                </div>
+                                            </div>
+                                                <div class="form-group">
+                                                <label class="control-label col-sm-2" for="fname">DISTRICT:</label>
+                                                <div class="col-sm-10">
+                                                    <div class="form-control"><% try{ if(hospital.getHID()==null){out.println("");}else{out.println(hospital.getDISTRICT());}}catch(Exception e){} %></div>
+                                                </div>
+                                            </div>
+                                                <div class="form-group">
+                                                <label class="control-label col-sm-2" for="fname">CITY</label>
+                                                <div class="col-sm-10">
+                                                    <div class="form-control"><% try{ if(hospital.getHID()==null){out.println("");}else{out.println(hospital.getCITY());}}catch(Exception e){} %></div>
+                                                </div>
+                                            </div>
+                                                <div class="form-group">
+                                                <label class="control-label col-sm-2" for="fname">TELEPHONE NO</label>
+                                                <div class="col-sm-10">
+                                                    <div class="form-control"><% try{ if(hospital.getHID()==null){out.println("");}else{out.println(hospital.getTP());}}catch(Exception e){} %></div>
+                                                </div>
+                                            </div>
+                                                <div class="form-group">
+                                                <label class="control-label col-sm-2" for="fname">LATITUDE</label>
+                                                <div class="col-sm-10">
+                                                    <div class="form-control"><% try{ if(hospital.getHID()==null){out.println("");}else{out.println(hospital.getLAT());}}catch(Exception e){} %></div>
+                                                </div>
+                                            </div>
+                                                <div class="form-group">
+                                                <label class="control-label col-sm-2" for="fname">LONGITUDE</label>
+                                                <div class="col-sm-10">
+                                                    <div class="form-control"><% try{ if(hospital.getHID()==null){out.println("");}else{out.println(hospital.getLON());}}catch(Exception e){} %></div>
+                                                </div>
                                             
-                                            
+                                               
+                                        </div>
+                                                <% }catch(Exception e){
+                                                        
+                                                        } %>
+                                            </div>                 
+
+                    
+
                 </div>
-                <button class="btn btn-primary"><i class="fa fa-edit "></i> Search</button>
-                
-                
-                 
-                           
-    </div>
              <!-- /. PAGE INNER  -->
             </div>
          <!-- /. PAGE WRAPPER  -->

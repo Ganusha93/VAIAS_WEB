@@ -143,6 +143,41 @@ public class HospitalDAOImpl implements HospitalDAO {
         return hospitals;
 
     }
+
+    @Override
+    public ArrayList<Hospital> searchHospital(Hospital hospital, Connection connection) throws ClassNotFoundException, SQLException {
+        String sql="SELECT HOSPITAL_NAME FROM hospital WHERE HOSPITAL_NAME like '%"+hospital.getHOSPITAL_NAME()+"%'" ;
+        Statement stm = connection.createStatement();
+        ResultSet res = stm.executeQuery(sql);
+    
+        ArrayList<Hospital> hospitals = new ArrayList<Hospital>();
+        while (res.next()) {
+            Hospital uReturn=new Hospital();
+            uReturn.setHOSPITAL_NAME(res.getString("HOSPITAL_NAME"));
+            hospitals.add(uReturn);
+        }
+        return hospitals;
+    }
+
+    @Override
+    public Hospital searchHospitalbyName(Hospital hospital, Connection connection) throws ClassNotFoundException, SQLException {
+        String sql="SELECT * FROM hospital WHERE HOSPITAL_NAME='"+hospital.getHOSPITAL_NAME()+"'";
+        Statement stm = connection.createStatement();
+        ResultSet res = stm.executeQuery(sql);
+        Hospital hReturn=new Hospital();
+        if (res.next()) {
+            hReturn.setHID(res.getString("HID"));
+            hReturn.setHOSPITAL_NAME(res.getString("HOSPITAL_NAME"));
+            hReturn.setPROVINCE(res.getString("PROVINCE"));
+            hReturn.setDISTRICT(res.getString("DISTRICT"));
+            hReturn.setCITY(res.getString("CITY"));
+            hReturn.setLAT(res.getFloat("LAT"));
+            hReturn.setLON(res.getFloat("LON"));
+            hReturn.setTP(res.getString("TP"));
+            
+        }
+        return hReturn;
+    }
     
   
 
