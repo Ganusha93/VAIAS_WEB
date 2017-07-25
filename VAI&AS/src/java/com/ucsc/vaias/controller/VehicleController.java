@@ -7,6 +7,7 @@ package com.ucsc.vaias.controller;
 
 import com.ucsc.vaias.connection.factory.DBResourceFactory;
 import com.ucsc.vaias.model.PoliceStation;
+import com.ucsc.vaias.model.PostAccident;
 import com.ucsc.vaias.service.PostAccidentService;
 import com.ucsc.vaias.service.impl.PostAccidentServiceImpl;
 import java.io.IOException;
@@ -38,19 +39,54 @@ public class VehicleController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-         DBResourceFactory bResourceFactory = new DBResourceFactory();
-        Connection connection = null;
-        try (PrintWriter out = response.getWriter()) {
-
+        
+            response.setContentType("text/html;charset=UTF-8");
+            DBResourceFactory bResourceFactory = new DBResourceFactory();
+            Connection connection = null;
+            String type = request.getParameter("type");
+            PrintWriter out = response.getWriter();
+            try {
             connection = bResourceFactory.getFactoryConnection().getConnection();
-
             PostAccidentService accidentService = new PostAccidentServiceImpl();
-            ArrayList<PoliceStation> countByPooliceDevision = accidentService.getCountByPooliceDevision(connection);
 
-        } catch (ClassNotFoundException | SQLException ex) {
+            if (type.equals("accTable")) {
+                try {
+                    ArrayList<PostAccident> allDetail = accidentService.getAllDetail(connection);
+                    for (PostAccident postAccident : allDetail) {
+                        System.out.println(postAccident.getAID());
+                        System.out.println(postAccident.getDATE());
+                        System.out.println(postAccident.getHID());
+                        System.out.println(postAccident.getLAT());
+                        System.out.println(postAccident.getLON());
+                        System.out.println(postAccident.getPID());
+                        System.out.println(postAccident.getUID());
+                        
+                    }
+                    
+                    if (!allDetail.isEmpty()) {
+                        request.setAttribute("list", allDetail);
+                        getServletContext().getRequestDispatcher("/Admin_Reports_accidents.jsp").forward(request, response);
+                        
+                        out.flush();
+                        out.close();
+                        return;
+                    }
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(VehicleController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(VehicleController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+            //  ArrayList<PoliceStation> countByPooliceDevision = accidentService.getCountByPooliceDevision(connection);
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(VehicleController.class.getName()).log(Level.SEVERE, null, ex);
-        }    }
+        } catch (SQLException ex) {
+            Logger.getLogger(VehicleController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+       
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

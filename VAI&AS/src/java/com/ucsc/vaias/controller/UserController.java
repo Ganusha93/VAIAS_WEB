@@ -45,42 +45,41 @@ public class UserController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-         String type = request.getParameter("type");
-         String name = request.getParameter("query");
-         DBResourceFactory bResourceFactory = new DBResourceFactory();
-                Connection connection = null;
-                PrintWriter out = response.getWriter();
-        try  {
-            try{
+        String type = request.getParameter("type");
+        String name = request.getParameter("query");
+        DBResourceFactory bResourceFactory = new DBResourceFactory();
+        Connection connection = null;
+        PrintWriter out = response.getWriter();
+        try {
+            try {
                 connection = bResourceFactory.getFactoryConnection().getConnection();
                 UserService userService = new UserServiceImpl();
                 User user = new User();
-                
-                System.out.println("nammmmmmmmmmmmmmmmmmmmmmm    "+ name);
+
+                System.out.println("nammmmmmmmmmmmmmmmmmmmmmm    " + name);
                 user.setFIRST_NAME(name);
-                if(!name.isEmpty()){
-                ArrayList<User> res_Select = userService.searchUsers(user, connection);
-                ArrayList<String> names=new ArrayList<String>();
-                JSONObject json = new JSONObject();
-                int i=0;
-                for (User user1 : res_Select) {
-                        
-                       System.out.println("searchhhhhhhhhh   " + user1.getFIRST_NAME());
-                       out.println("<li>"+user1.getFIRST_NAME()+"</li>");
-                       
-                        
+                if (!name.isEmpty()) {
+                    ArrayList<User> res_Select = userService.searchUsers(user, connection);
+                    ArrayList<String> names = new ArrayList<String>();
+                    JSONObject json = new JSONObject();
+                    int i = 0;
+                    for (User user1 : res_Select) {
+
+                        System.out.println("searchhhhhhhhhh   " + user1.getFIRST_NAME());
+                        out.println("<li>" + user1.getFIRST_NAME() + "</li>");
+
                     }
 //                for(int j=0;j<names.size();j++){
 //                    System.out.println(names.get(j));
 //                }
 //                if (!names.isEmpty()) {
 //                    
-                  // out.println("<div>"+names+"</div>");
+                    // out.println("<div>"+names+"</div>");
 //                }
                 }
-                }catch(Exception e){
-                    
-                }
+            } catch (Exception e) {
+
+            }
             if (type.equals("reg")) {
                 String UID = request.getParameter("UID");
                 String NIC = request.getParameter("NIC");
@@ -100,8 +99,6 @@ public class UserController extends HttpServlet {
 
                 User user = new User(UID, NIC, FIRST_NAME, LAST_NAME, GENDER, TP_HOME, TP_MOBILE, ADDRESS, LICENSE_NO, BLOOD_GROUP, EMAIL, BIRTH_DAY, OTHER);
 
-                
-
                 UserServiceImpl userServiceImpl = new UserServiceImpl();
                 try {
                     connection = bResourceFactory.getFactoryConnection().getConnection();
@@ -116,10 +113,9 @@ public class UserController extends HttpServlet {
                     Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            if(type.equals("sel")){
+            if (type.equals("sel")) {
                 try {
-                    
-                    
+
                     connection = bResourceFactory.getFactoryConnection().getConnection();
                     UserService userService = new UserServiceImpl();
                     ArrayList<User> res_Select = userService.selectAllUsers(connection);
@@ -132,31 +128,28 @@ public class UserController extends HttpServlet {
                         System.out.println("dgsgfdrbffffffffff " + user1.getTP_MOBILE());
 
                     }
-                   
-                   if (!res_Select.isEmpty()) {
-                   request.setAttribute("list",res_Select);
-                   getServletContext().getRequestDispatcher("/Admin_users.jsp").forward(request,response);
-                    
-                    
-                    out.flush();
-                    out.close();
-                    return;
-                   }else{
-                   response.sendRedirect(request.getHeader("referer"));
-                   }
-                    
-                   
-                   
-                        if (response.isCommitted()) {
-                           
-                            System.out.println("yeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeees");
-                            
-                        }
-                        if (!response.isCommitted()) {
-                           
-                            System.out.println("noooooooooooooooooooooooooooooooooooooooooooooooooooooo");
-                            
-                        }
+
+                    if (!res_Select.isEmpty()) {
+                        request.setAttribute("list", res_Select);
+                        getServletContext().getRequestDispatcher("/Admin_users.jsp").forward(request, response);
+
+                        out.flush();
+                        out.close();
+                        return;
+                    } else {
+                        response.sendRedirect(request.getHeader("referer"));
+                    }
+
+                    if (response.isCommitted()) {
+
+                        System.out.println("yeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeees");
+
+                    }
+                    if (!response.isCommitted()) {
+
+                        System.out.println("noooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+
+                    }
 //                        if (response.isCommitted()) {
 //
 //                            System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwfffffffffffffffffffff");
@@ -181,10 +174,10 @@ public class UserController extends HttpServlet {
 
                     User res_Select = userService.searchUserByUID(user, connection);
                     System.out.println(res_Select.getADDRESS());
-                    System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"+res_Select.getOTHER());
+                    System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" + res_Select.getOTHER());
                     request.setAttribute("sellist", res_Select);
                     getServletContext().getRequestDispatcher("/Admin_users_update.jsp").forward(request, response);
-                    
+
                     out.flush();
                     out.close();
                     return;
@@ -207,10 +200,10 @@ public class UserController extends HttpServlet {
 
                     User res_Select = userService.searchUserByName(user, connection);
                     System.out.println(res_Select.getADDRESS());
-                    System.out.println("seaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaarrrrrrch"+res_Select.getTP_MOBILE());
+                    System.out.println("seaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaarrrrrrch" + res_Select.getTP_MOBILE());
                     request.setAttribute("userDetails", res_Select);
                     getServletContext().getRequestDispatcher("/Admin_users_search.jsp").forward(request, response);
-                    
+
                     out.flush();
                     out.close();
                     return;
@@ -222,10 +215,9 @@ public class UserController extends HttpServlet {
                 }
 
             }
-            
+
             if (type.equals("update")) {
-                
-                
+
                 String UID = request.getParameter("upUID");
                 System.out.println(UID);
                 String NIC = request.getParameter("NIC");
@@ -245,8 +237,6 @@ public class UserController extends HttpServlet {
                 //String OTHER ="ees efwefew";
                 User user = new User(UID, NIC, FIRST_NAME, LAST_NAME, GENDER, TP_HOME, TP_MOBILE, ADDRESS, LICENSE_NO, BLOOD_GROUP, EMAIL, BIRTH_DAY, OTHER);
 
-                
-
                 UserService userServiceImpl = new UserServiceImpl();
                 try {
                     connection = bResourceFactory.getFactoryConnection().getConnection();
@@ -261,7 +251,7 @@ public class UserController extends HttpServlet {
                     Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-             if (type.equals("delete")) {
+            if (type.equals("delete")) {
                 try {
 
                     connection = bResourceFactory.getFactoryConnection().getConnection();
@@ -277,11 +267,6 @@ public class UserController extends HttpServlet {
                     } else {
                         response.sendRedirect(request.getHeader("referer"));
                     }
-                    
-                    
-                    
-                    
-                    
 
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(HospitalController.class.getName()).log(Level.SEVERE, null, ex);
@@ -291,7 +276,7 @@ public class UserController extends HttpServlet {
 
             }
 
-        }catch (Exception e) {
+        } catch (Exception e) {
 
             System.out.println("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy" + e);
         }
@@ -345,4 +330,3 @@ public class UserController extends HttpServlet {
     }// </editor-fold>
 
 }
-
