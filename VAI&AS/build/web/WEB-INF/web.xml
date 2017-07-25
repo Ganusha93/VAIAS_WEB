@@ -44,6 +44,10 @@
         <servlet-name>PoliceStationAdminController</servlet-name>
         <servlet-class>com.ucsc.vaias.controller.PoliceStationAdminController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PostAccidentControllerreqest</servlet-name>
+        <servlet-class>com.ucsc.vaias.controller.PostAccidentControllerreqest</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AdminController</servlet-name>
         <url-pattern>/AdminController</url-pattern>
@@ -87,6 +91,10 @@
     <servlet-mapping>
         <servlet-name>PoliceStationAdminController</servlet-name>
         <url-pattern>/PoliceStationAdminController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PostAccidentControllerreqest</servlet-name>
+        <url-pattern>/PostAccidentControllerreqest</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

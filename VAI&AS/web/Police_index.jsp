@@ -161,7 +161,7 @@
                 <div id="banner"  style="height: 150px;">
                 </div>
 
-                <form class="getApp" style="float: right; margin-right: 1%; background-color: #f4511e;"   name="someForm" action="PostAccidentController" method="POST">
+                <form class="getApp" style="float: right; margin-right: 1%; background-color: #f4511e;"   name="someForm" action="PostAccidentControllerreqest" method="POST">
                     <input type="hidden" name="PID" id="PID" />
                     <input type="hidden" name="AID" id="AID" />
                     <input type="submit" class="button1" value="SEND REQUEST" name="Submit" />

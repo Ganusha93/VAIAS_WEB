@@ -36,8 +36,8 @@
                 border: none;
                 color: #FFFFFF;
                 text-align: center;
-            
-                
+
+
                 width: 120px;
                 height: 20px;
                 transition: all 0.5s;
@@ -161,7 +161,7 @@
                 <div id="banner"  style="height: 150px;">
                 </div>
 
-                <form class="getApp" style="float: right; margin-right: 1%; background-color: #f4511e;"   name="someForm" action="PostAccidentController" method="POST">
+                <form class="getApp" style="float: right; margin-right: 1%; background-color: #f4511e;"   name="someForm" action="PostAccidentControllerreqest" method="POST">
                     <input type="hidden" name="HID" id="HID" />
                     <input type="hidden" name="AID" id="AID" />
                     <input type="submit" class="button1" value="SEND REQUEST" name="Submit" />
@@ -396,7 +396,7 @@
                 </script>
             </div>
         </div>
-             <%
+        <%
             // New location to be redirected
             String site = new String("Hospital_index.jsp");
             response.setStatus(response.SC_MOVED_TEMPORARILY);

@@ -14,9 +14,7 @@ import com.ucsc.vaias.service.impl.PostAccidentServiceImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,13 +22,9 @@ import org.json.JSONObject;
 
 /**
  *
- * @author sajja
- * 
- * 
+ * @author Ganusha
  */
-
-@WebServlet(name = "PostAccidentController", urlPatterns = {"/PostAccidentController"})
-public class PostAccidentController extends HttpServlet {
+public class PostAccidentControllerreqest extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,7 +38,7 @@ public class PostAccidentController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+         try (PrintWriter out = response.getWriter()) {
             DBResourceFactory dBResourceFactory = new DBResourceFactory();
             Connection connection = null;
 
@@ -64,12 +58,10 @@ public class PostAccidentController extends HttpServlet {
                 
                 UserDAOImpl userDAOImpl = new UserDAOImpl();
                 User postAccidentUser = userDAOImpl.searchUserByUID(user, connection);
-                JSONObject jsono=new JSONObject(postAccidentUser);
-                response.setContentType("json");
-                out.print(jsono);
                 //request.setAttribute("user", postAccidentUser);
 
-                
+               String redirectURL = "Police_index.jsp";
+                response.sendRedirect(redirectURL);
                 //String name=postAccidentUser.getFIRST_NAME();
                 //out.print(postAccident.getUID());
                 String PID = request.getParameter("PID");
@@ -77,7 +69,7 @@ public class PostAccidentController extends HttpServlet {
                 String HID = request.getParameter("HID");
                 
                 //*****************
-                PostAccident postAccidentPID=new PostAccident();
+             PostAccident postAccidentPID=new PostAccident();
                 PostAccident postAccidentHID=new PostAccident();
                 postAccidentPID.setPID(PID);
                 postAccidentPID.setAID(AID);
@@ -124,60 +116,7 @@ public class PostAccidentController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       try (PrintWriter out = response.getWriter()) {
-            DBResourceFactory dBResourceFactory = new DBResourceFactory();
-            Connection connection = null;
-
-            PostAccident postAccident = new PostAccident();
-            //set kaanna database 1n ganna annima row 1;
-
-           
-           //postAccident.getUID()
-
-            try {
-                connection = dBResourceFactory.getFactoryConnection().getConnection();
-                
-                PostAccidentService accidentService=new PostAccidentServiceImpl();
-                PostAccident searchLastRow = accidentService.SearchLastRow(connection);
-                User user = new User();
-                user.setUID(searchLastRow.getUID());
-                
-                UserDAOImpl userDAOImpl = new UserDAOImpl();
-                User postAccidentUser = userDAOImpl.searchUserByUID(user, connection);
-                //request.setAttribute("user", postAccidentUser);
-
-                JSONObject jsono=new JSONObject(postAccidentUser);
-                
-                response.setContentType("json");
-                out.print(jsono);
-                
-                //String name=postAccidentUser.getFIRST_NAME();
-                //out.print(postAccident.getUID());
-                String PID = request.getParameter("PID");
-                String AID = request.getParameter("AID");
-                String HID = request.getParameter("HID");
-                
-                //*****************
-             PostAccident postAccidentPID=new PostAccident();
-                PostAccident postAccidentHID=new PostAccident();
-                postAccidentPID.setPID(PID);
-                postAccidentPID.setAID(AID);
-                postAccidentHID.setHID(HID);
-                postAccidentHID.setAID(AID);
-                PostAccidentService postAccidentService=new PostAccidentServiceImpl();
-                boolean resUpdatePID = postAccidentService.updatePID(connection, postAccidentPID);
-                boolean resUpdateHID = postAccidentService.updateHID(connection, postAccidentHID);
-                
-                //***********
-                // rd = request.getRequestDispatcher("./profileview.jsp");
-                //rd.forward(request, response);
-
-            } catch (Exception e) {
-                System.out.println(e);
-            }
-
-        }
-
+        processRequest(request, response);
     }
 
     /**
