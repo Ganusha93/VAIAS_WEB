@@ -7,10 +7,12 @@ package com.ucsc.vaias.service.impl;
 
 import com.ucsc.vaias.dao.PostAccidentDAO;
 import com.ucsc.vaias.dao.impl.PostAccidentDAOImpl;
+import com.ucsc.vaias.model.PoliceStation;
 import com.ucsc.vaias.model.PostAccident;
 import com.ucsc.vaias.service.PostAccidentService;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -34,5 +36,19 @@ public class PostAccidentServiceImpl implements PostAccidentService{
     public boolean updateHID(Connection connection, PostAccident postAccident) throws ClassNotFoundException, SQLException {
         return postAccidentDAO.UpdateHID(connection, postAccident);
     }
+    
+    @Override
+    public ArrayList<PostAccident> getAllDetail(Connection connection) throws ClassNotFoundException, SQLException {
+    return postAccidentDAO.getAllDetail(connection);    
+    }
+
+    @Override
+    public ArrayList<PostAccident> getAllDetailByPooliceDevision(Connection connection, String divition) throws ClassNotFoundException, SQLException {
+       return postAccidentDAO.getAllDetailByPooliceDevision(connection, divition);  }
+
+    @Override
+    public ArrayList<PoliceStation> getCountByPooliceDevision(Connection connection) throws ClassNotFoundException, SQLException {
+      return postAccidentDAO.getCountByPooliceDevision(connection);  }
+    
     
 }

@@ -6,12 +6,14 @@
 package com.ucsc.vaias.dao.impl;
 
 import com.ucsc.vaias.dao.PostAccidentDAO;
+import com.ucsc.vaias.model.PoliceStation;
 import com.ucsc.vaias.model.PostAccident;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *
@@ -64,6 +66,73 @@ public class PostAccidentDAOImpl implements PostAccidentDAO{
             return true;
         }
           return false;
+    }
+    
+    @Override
+    public ArrayList<PostAccident> getAllDetail(Connection connection) throws ClassNotFoundException, SQLException {
+
+        String sql = "SELECT * FROM post_accident ORDER BY AID DESC;";
+        Statement stm = connection.createStatement();
+        ResultSet res = stm.executeQuery(sql);
+
+        ArrayList<PostAccident> accidents = new ArrayList<PostAccident>();
+
+        while (res.next()) {
+            PostAccident accident = new PostAccident();
+            accident.setAID(res.getString("AID"));
+            accident.setUID(res.getString("UID"));
+            accident.setLAT(res.getFloat("LAT"));
+            accident.setLON(res.getFloat("LON"));
+            accident.setDATE(res.getDate("DATE"));
+            accident.setTIME(res.getTime("TIME"));
+            accident.setPID(res.getString("PID"));
+            accident.setHID(res.getString("HID"));
+            accidents.add(accident);
+        }
+        return accidents;
+    }
+    
+    @Override
+    public ArrayList<PostAccident> getAllDetailByPooliceDevision(Connection connection,String divition) throws ClassNotFoundException, SQLException {
+
+        String sql = "SELECT AID,UID,LAT,LON,DATE,TIME,DIVITION,HID,PID FROM post_accident a,police_station p where a.PID=p.PID and DIVITION='"+divition+"'";
+        Statement stm = connection.createStatement();
+        ResultSet res = stm.executeQuery(sql);
+
+        ArrayList<PostAccident> accidents = new ArrayList<PostAccident>();
+
+        while (res.next()) {
+            PostAccident accident = new PostAccident();
+            accident.setAID(res.getString("AID"));
+            accident.setUID(res.getString("UID"));
+            accident.setLAT(res.getFloat("LAT"));
+            accident.setLON(res.getFloat("LON"));
+            accident.setDATE(res.getDate("DATE"));
+            accident.setTIME(res.getTime("TIME"));
+            accident.setPID(res.getString("PID"));
+            accident.setHID(res.getString("HID"));
+            accidents.add(accident);
+        }
+        return accidents;
+    }
+    
+    @Override
+    public ArrayList<PoliceStation> getCountByPooliceDevision(Connection connection) throws ClassNotFoundException, SQLException {
+
+        String sql = "SELECT DIVITION count(AID) as cot FROM post_accident a,police_station p where a.PID=p.PID GROUP BY DIVITION";
+        Statement stm = connection.createStatement();
+        ResultSet res = stm.executeQuery(sql);
+
+        ArrayList<PoliceStation> accidents = new ArrayList<PoliceStation>();
+
+        while (res.next()) {
+            PoliceStation ps = new PoliceStation();
+            ps.setDIVITION(res.getString("DIVITION"));
+            ps.setLAT(res.getInt("cot"));
+           
+            accidents.add(ps);
+        }
+        return accidents;
     }
         
     }
