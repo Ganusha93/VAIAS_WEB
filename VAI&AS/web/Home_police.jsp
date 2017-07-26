@@ -62,7 +62,7 @@
                             var lon = data.lon;
                             var id = data.pid;
                             //alert(lat);
-                            if (id == "10") {
+                            if (id == "40") {
                                 window.location = "Police_index.jsp";
                             }
 

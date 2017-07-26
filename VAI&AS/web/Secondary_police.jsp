@@ -164,7 +164,7 @@
                 <form class="getApp" style="float: right; margin-right: 1%; background-color: #f4511e;"   name="someForm" action="PostAccidentController" method="POST">
                     <input type="hidden" name="PID" id="PID" />
                     <input type="hidden" name="AID" id="AID" />
-                    <input type="hidden" name="HIDDEN" value="police1"id="HIDDEN" />
+                    <input type="hidden" name="HIDDEN" value="police2" id="HIDDEN" />
                     <input type="submit" class="button1" value="SEND REQUEST" name="Submit" />
                 </form>
 
@@ -309,7 +309,7 @@
                             var minlon = 0;
                             var minid = 0;
 
-                            for (var i = 0; i < 40; i++) {
+                            for (var i = 0; i < 60; i++) {
 
                                 if (data[i] != undefined) {
                                     var distance = getDistanceFromLatLonInKm(lat, lon, data[i], data[i + 1]);
@@ -330,8 +330,8 @@
                             // alert(minid);
                             document.getElementById("PID").value = minid;
                             //document.form[0].submit();
-                            //minlat = 6.8625;
-                            //minlon = 79.8855;
+                            minlat = 6.878990, 
+                            minlon = 79.873787;
                             //lat=6.8817;
                             //lon=79.8787;
                             var directionsDisplay = new google.maps.DirectionsRenderer;

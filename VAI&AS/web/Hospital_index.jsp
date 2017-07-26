@@ -161,9 +161,10 @@
                 <div id="banner"  style="height: 150px;">
                 </div>
 
-                <form class="getApp" style="float: right; margin-right: 1%; background-color: #f4511e;"   name="someForm" action="PostAccidentControllerreqest" method="POST">
+                <form class="getApp" style="float: right; margin-right: 1%; background-color: #f4511e;"   name="someForm" action="PostAccidentController" method="POST">
                     <input type="hidden" name="HID" id="HID" />
                     <input type="hidden" name="AID" id="AID" />
+                    <input type="hidden" name="HIDDEN" value="hospital1" id="HIDDEN" />
                     <input type="submit" class="button1" value="SEND REQUEST" name="Submit" />
                 </form>
 
@@ -300,7 +301,7 @@
 
                     jQuery.ajax({
                         type: 'POST',
-                        url: "PoliceStationController",
+                        url: "HospitalController",
                         dataType: 'json',
                         success: function (data) {
                             var mindistance = 10000;
@@ -326,7 +327,7 @@
 
                                 }
                             }
-                            // alert(minid);
+                            //alert(minid);
                             document.getElementById("HID").value = minid;
                             //document.form[0].submit();
                             //minlat = 6.8625;

@@ -32,7 +32,7 @@
                                        var res;
                                         jQuery.ajax({
                                             type: 'POST',
-                                            url: "PostAccidentController",
+                                            url: "ProfileController",
                                             dataType: 'json',
                                             success: function (data) {
                                                 
@@ -93,8 +93,10 @@
                                         </tbody>
                                     </table>
 
-                                    <a href="Police_index.jsp" class="btn btn-primary">Police Station</a>
-                                    <a href="Hospital_index.jsp" class="btn btn-primary">Hospital</a>
+                                    <a href="Police_index.jsp" class="btn btn-primary">Police Station 1</a>
+                                    <a href="Hospital_index.jsp" class="btn btn-primary">Hospital 1</a><br>
+                                    <a href="Secondary_police.jsp" class="btn btn-primary">Police Station 2</a>
+                                    <a href="Secondary_hospital.jsp" class="btn btn-primary">Hospital 2</a>
                                 </div>
                             </div>
                         </div>

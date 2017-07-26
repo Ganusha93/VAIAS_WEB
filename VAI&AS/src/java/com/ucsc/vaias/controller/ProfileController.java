@@ -14,6 +14,9 @@ import com.ucsc.vaias.service.impl.PostAccidentServiceImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +27,7 @@ import org.json.JSONObject;
  *
  * @author Ganusha
  */
-public class PostAccidentControllerreqest extends HttpServlet {
+public class ProfileController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,57 +39,26 @@ public class PostAccidentControllerreqest extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-         try (PrintWriter out = response.getWriter()) {
-            DBResourceFactory dBResourceFactory = new DBResourceFactory();
-            Connection connection = null;
-
-            PostAccident postAccident = new PostAccident();
-            //set kaanna database 1n ganna annima row 1;
-
-           
-           //postAccident.getUID()
-
-            try {
+            throws ServletException, IOException, ClassNotFoundException {
+        
+        try (PrintWriter out = response.getWriter()) {
+                DBResourceFactory dBResourceFactory = new DBResourceFactory();
+                Connection connection = null;
+            
                 connection = dBResourceFactory.getFactoryConnection().getConnection();
                 
                 PostAccidentService accidentService=new PostAccidentServiceImpl();
                 PostAccident searchLastRow = accidentService.SearchLastRow(connection);
                 User user = new User();
                 user.setUID(searchLastRow.getUID());
-                
                 UserDAOImpl userDAOImpl = new UserDAOImpl();
                 User postAccidentUser = userDAOImpl.searchUserByUID(user, connection);
-                //request.setAttribute("user", postAccidentUser);
-
-               String redirectURL = "Police_index.jsp";
-                response.sendRedirect(redirectURL);
-                //String name=postAccidentUser.getFIRST_NAME();
-                //out.print(postAccident.getUID());
-                String PID = request.getParameter("PID");
-                String AID = request.getParameter("AID");
-                String HID = request.getParameter("HID");
-                
-                //*****************
-             PostAccident postAccidentPID=new PostAccident();
-                PostAccident postAccidentHID=new PostAccident();
-                postAccidentPID.setPID(PID);
-                postAccidentPID.setAID(AID);
-                postAccidentHID.setHID(HID);
-                postAccidentHID.setAID(AID);
-                PostAccidentService postAccidentService=new PostAccidentServiceImpl();
-                boolean resUpdatePID = postAccidentService.updatePID(connection, postAccidentPID);
-                boolean resUpdateHID = postAccidentService.updateHID(connection, postAccidentHID);
-                
-                //***********
-                // rd = request.getRequestDispatcher("./profileview.jsp");
-                //rd.forward(request, response);
-
-            } catch (Exception e) {
-                System.out.println(e);
-            }
-
+                JSONObject jsono=new JSONObject(postAccidentUser);
+                response.setContentType("json");
+                out.print(jsono);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -102,7 +74,11 @@ public class PostAccidentControllerreqest extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -116,7 +92,11 @@ public class PostAccidentControllerreqest extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

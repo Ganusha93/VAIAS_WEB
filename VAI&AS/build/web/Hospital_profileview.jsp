@@ -32,7 +32,7 @@
                                        
                                         jQuery.ajax({
                                             type: 'POST',
-                                            url: "PostAccidentController",
+                                            url: "ProfileController",
                                             dataType: 'json',
                                             success: function(data) {
                                                 

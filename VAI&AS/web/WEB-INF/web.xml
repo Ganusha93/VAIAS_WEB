@@ -46,7 +46,19 @@
     </servlet>
     <servlet>
         <servlet-name>PostAccidentControllerreqest</servlet-name>
-        <servlet-class>com.ucsc.vaias.controller.PostAccidentControllerreqest</servlet-class>
+        <servlet-class>com.ucsc.vaias.controller.PoliceControllerRequest</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HospitalControllerRequest</servlet-name>
+        <servlet-class>HospitalControllerRequest</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NewServlet</servlet-name>
+        <servlet-class>com.ucsc.vaias.controller.HospitalControllerRequest</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProfileController</servlet-name>
+        <servlet-class>com.ucsc.vaias.controller.ProfileController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AdminController</servlet-name>
@@ -95,6 +107,18 @@
     <servlet-mapping>
         <servlet-name>PostAccidentControllerreqest</servlet-name>
         <url-pattern>/PostAccidentControllerreqest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HospitalControllerRequest</servlet-name>
+        <url-pattern>/HospitalControllerRequest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewServlet</servlet-name>
+        <url-pattern>/NewServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProfileController</servlet-name>
+        <url-pattern>/ProfileController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
