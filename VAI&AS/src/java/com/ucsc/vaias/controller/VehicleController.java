@@ -6,13 +6,15 @@
 package com.ucsc.vaias.controller;
 
 import com.ucsc.vaias.connection.factory.DBResourceFactory;
-import com.ucsc.vaias.model.Vehicle;
-import com.ucsc.vaias.service.VehicleService;
-import com.ucsc.vaias.service.impl.VehicleServiceImpl;
+import com.ucsc.vaias.model.PoliceStation;
+import com.ucsc.vaias.model.PostAccident;
+import com.ucsc.vaias.service.PostAccidentService;
+import com.ucsc.vaias.service.impl.PostAccidentServiceImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -37,41 +39,53 @@ public class VehicleController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            
-            Vehicle vehicle=new  Vehicle();
-            vehicle.setVID("122");
-            vehicle.setREGISTER_NO("kjshd");
-            vehicle.setCHASSI_NO("kjs");
-            vehicle.setENGINE_NO("ajkshd");
-            vehicle.setVEHICLE_TYPE("ajsdh");
-            
-            DBResourceFactory resourceFactory =new DBResourceFactory();
-            Connection connection = resourceFactory.getFactoryConnection().getConnection();
-            
-            VehicleService vehicleService=new VehicleServiceImpl();
-            boolean addVehicle = vehicleService.addVehicle(vehicle, connection);
-            
-            
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet VehicleController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet VehicleController at " + request.getContextPath() + "</h1>");
-            if (addVehicle) {
-                out.println("add");
-            } else {
-                  out.println("fale");
+        
+            response.setContentType("text/html;charset=UTF-8");
+            DBResourceFactory bResourceFactory = new DBResourceFactory();
+            Connection connection = null;
+            String type = request.getParameter("type");
+            PrintWriter out = response.getWriter();
+            try {
+            connection = bResourceFactory.getFactoryConnection().getConnection();
+            PostAccidentService accidentService = new PostAccidentServiceImpl();
+
+            if (type.equals("accTable")) {
+                try {
+                    ArrayList<PostAccident> allDetail = accidentService.getAllDetail(connection);
+                    for (PostAccident postAccident : allDetail) {
+                        System.out.println(postAccident.getAID());
+                        System.out.println(postAccident.getDATE());
+                        System.out.println(postAccident.getHID());
+                        System.out.println(postAccident.getLAT());
+                        System.out.println(postAccident.getLON());
+                        System.out.println(postAccident.getPID());
+                        System.out.println(postAccident.getUID());
+                        
+                    }
+                    
+                    if (!allDetail.isEmpty()) {
+                        request.setAttribute("list", allDetail);
+                        getServletContext().getRequestDispatcher("/Admin_Reports_accidents.jsp").forward(request, response);
+                        
+                        out.flush();
+                        out.close();
+                        return;
+                    }
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(VehicleController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(VehicleController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-            out.println("</body>");
-            out.println("</html>");
-        } catch (ClassNotFoundException | SQLException ex) {
+            
+            //  ArrayList<PoliceStation> countByPooliceDevision = accidentService.getCountByPooliceDevision(connection);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(VehicleController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
             Logger.getLogger(VehicleController.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+       
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

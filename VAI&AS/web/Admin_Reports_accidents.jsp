@@ -4,6 +4,8 @@
     Author     : Shaii99
 --%>
 
+<%@page import="com.ucsc.vaias.model.PostAccident"%>
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -23,7 +25,7 @@
         <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     </head>
     <body>
-        <jsp:include page="//UserController?type=sel" flush="true"/>
+        <jsp:include page="//VehicleController?type=accTable"/>
         <div id="wrapper">
             <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
@@ -67,14 +69,14 @@
                 </div>
 
             </nav>
-            
+
             <!-- /. NAV SIDE  -->
             <div id="page-wrapper" >
                 <div id="page-inner">
                     <div class="row">
                         <div class="col-md-12">
                             <h2>Accident Reports</h2>   
-                            
+
                         </div>
                     </div>              
                     <!-- /. ROW  -->
@@ -92,35 +94,58 @@
 
                             <div class="panel panel-default" >
                                 <div class="panel-heading">
-                                  
+
                                 </div>
                                 <div class="panel-body" style="width: 100%">
                                     <div class="table-responsive" >
                                         <table class="table table-striped table-bordered table-hover" >
                                             <thead>
                                                 <tr>
-                                                    <th>Date and Time</th>
-                                                    <th>Location</th>
+                                                    <th>Date</th>
+                                                    <th>Time</th>
+                                                    <th>LAT</th>
+                                                    <th>LON</th>
                                                     <th>User_ID</th>
                                                     <th>Vehicle_ID</th>
                                                     <th>Police Station Informed</th>
                                                     <th>Hospital Informed</th>
-                                                    
+
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                               
+                                                <%
+                                                    try{
+                                                    ArrayList<PostAccident> list = (ArrayList<PostAccident>) request.getAttribute("list");
+                                                    for (PostAccident accident : list) {
+                                                %>
+                                                <tr>
+                                                    <td><% out.println(accident.getDATE()); %></td>
+                                                    <td><% out.println(accident.getTIME()); %></td>
+                                                    <td><% out.println(accident.getLAT()); %></td>
+                                                    <td><% out.println(accident.getLON()); %></td>
+                                                    <td><% out.println(accident.getUID()); %></td>
+                                                    <td><% out.println(accident.getVID()); %></td>
+                                                    <td><% out.println(accident.getHID()); %></td>
+                                                    <td><% out.println(accident.getPID()); %></td>
+                                                   
+                                                </tr>
+
+                                                <%     }
+}catch(Exception e){
+System.out.print("sdsad");
+}
+                                                %>
 
                                             </tbody>
                                         </table>
-                                        
+
                                         <div class="form-group"> 
-                                        <div class="col-sm-offset-2 col-sm-10">
-                                            <button type="button" class="btn btn-primary" id="mapAdd" >MAP</button>
-                                            <button type="submit" class="btn btn-default">Generate Report</button>
+                                            <div class="col-sm-offset-2 col-sm-10">
+                                                <button type="button" class="btn btn-primary" id="mapAdd" >MAP</button>
+                                                <button type="submit" class="btn btn-default">Generate Report</button>
+                                            </div>
                                         </div>
-                                    </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -147,7 +172,7 @@
         <script src="assets/js/morris/morris.js"></script>
         <!-- CUSTOM SCRIPTS -->
         <script src="assets/js/custom.js"></script>
-        
+
         <script>
             $('#mapAdd').click(function () {
                 $('#mapcontainer').toggle("slow");
